@@ -1,16 +1,18 @@
+# The default parameters for the foreman proxy
 class foreman_proxy::params {
 
   include tftp::params
   include puppet::params
 
   # Packaging
-  $repo = stable
+  $repo = 'stable'
+  $gpgcheck = true
   # if set to true, no repo will be added by this module, letting you to
   # set it to some custom location.
   $custom_repo = false
 
   # variables
-  $port = "8443"
+  $port = '8443'
   $dir  = '/usr/share/foreman-proxy'
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
@@ -22,8 +24,8 @@ class foreman_proxy::params {
   # If CA is specified, remote Foreman host will be verified
   $ssl_ca = "${puppet_home}/ssl/certs/ca.pem"
   # Used to communicate to Foreman
-  $ssl_cert = "${puppet_home}/ssl/certs/${fqdn}.pem"
-  $ssl_key = "${puppet_home}/ssl/private_keys/${fqdn}.pem"
+  $ssl_cert = "${puppet_home}/ssl/certs/${::fqdn}.pem"
+  $ssl_key = "${puppet_home}/ssl/private_keys/${::fqdn}.pem"
 
   # Only hosts listed will be permitted, empty array to disable authorization
   $trusted_hosts = []
@@ -68,7 +70,7 @@ class foreman_proxy::params {
       $tftp_syslinux_root = '/usr/share/syslinux'
     }
   }
-  $tftp_syslinux_files = ['pxelinux.0','menu.c32','chain.c32']
+  $tftp_syslinux_files = ['pxelinux.0','menu.c32','chain.c32','memdisk']
   $tftp_root           = $tftp::params::root
   $tftp_dirs           = ["${tftp_root}/pxelinux.cfg","${tftp_root}/boot"]
   $tftp_servername     = $ipaddress_eth0
