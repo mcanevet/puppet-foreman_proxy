@@ -1,7 +1,9 @@
+# Install the foreman proxy
 class foreman_proxy::install {
   if ! $foreman_proxy::custom_repo {
     foreman::install::repos { 'foreman_proxy':
-      repo    => $foreman_proxy::repo,
+      repo     => $foreman_proxy::repo,
+      gpgcheck => $foreman_proxy::gpgcheck,
     }
   }
 
